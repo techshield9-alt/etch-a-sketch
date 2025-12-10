@@ -31,10 +31,25 @@ function createGrid(size = DEFAULT_SIZE) {
 
         sq.style.flex = `0 0 ${squarePx}px`;
         sq.style.height = `${squarePx}px`;
+        sq.dataset.darkness = '0'; //track how dark this square is
 
         //mouseenter so it changes when the mouse passes into the square
         sq.addEventListener('mouseenter', () => {
-            sq.style.backgroundColor = '#111'
+            let darkness = parseInt(sq.dataset.darkness, 10);
+            if (darkness === 0){
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                sq.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                sq.style.opacity = '1'
+            }
+            if (darkness < 10) {
+                darkness += 1;
+                sq.dataset.darkness = darkness;
+
+                const newOpacity = 1 - (darkness * 0.1);
+                sq.style.opacity = newOpacity;
+            }
         });
 
         frag.appendChild(sq);
@@ -45,20 +60,16 @@ function createGrid(size = DEFAULT_SIZE) {
 
 //hookup button to prompt for new size 
 resizeBtn.addEventListener('click', () => {
-    let input = prompt(`Enter new grid size (squares per side). 1-${MAX_SIZE}:`, "");
+    let input = prompt(`Enter new grid size (1-${MAX_SIZE}):`);
     if (input === null) {
         return; //user cancelled
     }
 
     input = input.trim();
-    if (input === "") {
-        alert('please enter a number');
-        return;
-    }
 
     const n = parseInt(input, 10);
     if (Number.isNaN(n) || n < 1 || n > MAX_SIZE) {
-        alert(`Invalid number. Enter a number between 1 and ${MAX_SIZE}.`);
+        alert(`Enter a number between 1 and ${MAX_SIZE}.`);
         return;
     }
 
