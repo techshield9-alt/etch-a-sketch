@@ -1,0 +1,82 @@
+/* reset-ish and box sizing so borders don't change measured sizes */
+* {box-sizing: border-box; margin: 0; padding: 0;}
+
+:root {
+    --grid-size-px: 960px; /* total drawing area */
+    --bg:#f8f8fb;
+    --accent: #5b21b6; /*purple-ish*/
+    --square-border: 0.5px;  /* very thin border around each square */
+}
+
+body {
+    font-family: system-ui, -apple-sytem, "segoe ui", Roboto, "Helvetica Neue", arial;
+    background-color: var(--bg);
+    color: #111;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* top bar with button */
+.topbar {
+    width: min(100%, 1100px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar h1 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    letter-spacing: 0.6px;
+}
+
+button#resizeBtn {
+    appearance: none;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.main {
+    width: min(100%, 1100px);
+    display: flex;
+    justify-content: center;
+}
+
+.grid-container {
+    width: var(--grid-size-px);
+    height: var(--grid-size-px);
+    background: white;
+    display: flex;
+    flex-wrap: wrap; /*next row begins automatically*/
+    align-content: flex-start;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(11, 10, 12, 0.06);
+    border-radius: 8px;
+}
+
+.grid-square {
+    /*actual size set inline by JS using flex-basis and height to ensure equal squares*/
+    flex: 0 0 auto;
+    height: auto; /*JS sets explicit height*/
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    border: var(--square-border) solid rgba(0, 0, 0, 0.04);
+    background: transparent;
+}
+
+/* footer */
+.footer {
+    color: #555;
+    font-size: 0.85rem;
+}
